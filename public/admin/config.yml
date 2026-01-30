@@ -188,6 +188,7 @@ collections:
             default:
               - "Power BI"
             field:
+              name: "tool"
               widget: "string"
 
           - label: "Tags"
@@ -196,6 +197,7 @@ collections:
             required: false
             hint: "Add tags for filtering (Sales, Finance, HR, Executive, etc.)"
             field:
+              name: "tag"
               widget: "string"
 
       # ─────────────────────────────────────────
@@ -241,17 +243,9 @@ collections:
         widget: "markdown"
         required: false
         hint: "Add detailed project description, methodology, insights, and key findings"
-        buttons:
-          - bold
-          - italic
-          - link
-          - heading-two
-          - heading-three
-          - bulleted-list
-          - numbered-list
-          - quote
-          - code
-          - image
+        modes:
+          - raw
+          - rich_text
         editor_components:
           - image
           - code-block
@@ -364,13 +358,13 @@ collections:
             widget: "list"
             required: true
             default: ["Tableau"]
-            field: { widget: "string" }
+            field: { name: "tool", widget: "string" }
 
           - label: "Tags"
             name: "tags"
             widget: "list"
             required: false
-            field: { widget: "string" }
+            field: { name: "tag", widget: "string" }
 
       # Display Settings
       - label: "⚙️ Display Settings"
@@ -514,13 +508,13 @@ collections:
             widget: "list"
             required: true
             default: ["Excel"]
-            field: { widget: "string" }
+            field: { name: "tool", widget: "string" }
 
           - label: "Tags"
             name: "tags"
             widget: "list"
             required: false
-            field: { widget: "string" }
+            field: { name: "tag", widget: "string" }
 
       # Display Settings
       - label: "⚙️ Display Settings"
