@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#0ea5e9" />
+
+  <!-- Admin Branding -->
+  <title>Analytics Portfolio – Admin</title>
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%230ea5e9' rx='15' width='100' height='100'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-size='50' fill='white'>📊</text></svg>" />
+
+  <!-- Netlify Identity Widget -->
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
+  <!-- Admin Custom Styles -->
+  <style>
+    /* ============================================
+       ADMIN BRANDING & THEME
+       ============================================ */
+    :root {
+      --admin-primary: #0ea5e9;
+      --admin-primary-dark: #0284c7;
+      --admin-bg: #0f172a;
+      --admin-surface: #1e293b;
+      --admin-text: #e2e8f0;
+      --admin-muted: #94a3b8;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, var(--admin-bg) 0%, var(--admin-surface) 100%);
+      min-height: 100vh;
+    }
+
+    /* Loading State */
+    #loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      color: var(--admin-text);
+      gap: 20px;
+    }
+
+    .loading-logo {
+      font-size: 64px;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .spinner {
+      width: 48px;
+      height: 48px;
+      border: 4px solid rgba(255, 255, 255, 0.1);
+      border-left-color: var(--admin-primary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    #loading h2 {
+      font-size: 24px;
+      font-weight: 600;
+      margin: 0;
+      color: var(--admin-text);
+    }
+
+    #loading p {
+      font-size: 14px;
+      color: var(--admin-muted);
+      margin: 0;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+
+      50% {
+        transform: scale(1.05);
+        opacity: 0.8;
+      }
+    }
+
+    /* Hide loading when CMS loads */
+    [data-netlify-cms]~#loading,
+    .notif__container~#loading {
+      display: none;
+    }
+
+    /* ============================================
+       CMS BRANDING OVERRIDES (Safe, Non-Invasive)
+       ============================================ */
+
+    /* Top bar branding */
+    [class*="AppHeader"] {
+      background: var(--admin-surface) !important;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    }
+
+    /* Sidebar styling */
+    [class*="Sidebar"] {
+      background: var(--admin-bg) !important;
+    }
+
+    /* Collection cards */
+    [class*="CollectionCard"] {
+      border-radius: 12px !important;
+      transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+    }
+
+    [class*="CollectionCard"]:hover {
+      transform: translateY(-2px) !important;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2) !important;
+    }
+
+    /* Primary button styling */
+    [class*="ToolbarButton"][class*="ButtonDefault"],
+    button[class*="PublishButton"] {
+      background: var(--admin-primary) !important;
+      border-radius: 8px !important;
+      transition: background 0.2s ease !important;
+    }
+
+    [class*="ToolbarButton"][class*="ButtonDefault"]:hover,
+    button[class*="PublishButton"]:hover {
+      background: var(--admin-primary-dark) !important;
+    }
+
+    /* Entry cards */
+    [class*="ListCard"] {
+      border-radius: 8px !important;
+      transition: all 0.2s ease !important;
+    }
+
+    [class*="ListCard"]:hover {
+      transform: translateX(4px) !important;
+    }
+
+    /* Form field styling */
+    [class*="ControlInput"],
+    [class*="TextField"] input,
+    [class*="TextField"] textarea {
+      border-radius: 8px !important;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+    }
+
+    [class*="ControlInput"]:focus,
+    [class*="TextField"] input:focus,
+    [class*="TextField"] textarea:focus {
+      border-color: var(--admin-primary) !important;
+      box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15) !important;
+    }
+
+    /* Toast notifications */
+    .notif__container .notif {
+      border-radius: 8px !important;
+    }
+
+    /* Media library modal */
+    [class*="MediaLibraryModal"] {
+      border-radius: 16px !important;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Loading State -->
+  <div id="loading">
+    <div class="loading-logo">📊</div>
+    <h2>Analytics Portfolio</h2>
+    <div class="spinner"></div>
+    <p>Loading Content Manager...</p>
+  </div>
+
+  <!-- Decap CMS -->
+  <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+
+  <!-- Preview Styles -->
+  <link rel="stylesheet" href="/admin/preview.css" />
+
+  <!-- Netlify Identity & CMS Event Handlers -->
+  <script>
+    // ============================================
+    // NETLIFY IDENTITY HANDLERS
+    // ============================================
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on('init', function (user) {
+        if (!user) {
+          window.netlifyIdentity.on('login', function () {
+            document.location.href = '/admin/';
+          });
+        }
+      });
+
+      window.netlifyIdentity.on('logout', function () {
+        document.location.href = '/';
+      });
+
+      window.netlifyIdentity.on('error', function (err) {
+        console.error('Netlify Identity Error:', err);
+      });
+    }
+
+    // ============================================
+    // CMS INITIALIZATION
+    // ============================================
+    window.addEventListener('load', function () {
+      // Hide loading after CMS initializes
+      setTimeout(function () {
+        var loading = document.getElementById('loading');
+        if (loading) {
+          loading.style.opacity = '0';
+          loading.style.transition = 'opacity 0.3s ease';
+          setTimeout(function () {
+            loading.style.display = 'none';
+          }, 300);
+        }
+      }, 2000);
+    });
+
+    // ============================================
+    // CUSTOM PREVIEW TEMPLATES (Optional)
+    // ============================================
+    if (window.CMS) {
+      // Register preview styles
+      CMS.registerPreviewStyle('/admin/preview.css');
+    }
+  </script>
+</body>
+
+</html>

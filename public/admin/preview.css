@@ -1,0 +1,315 @@
+/* ============================================
+   DECAP CMS PREVIEW STYLES
+   Analytics Portfolio Platform
+   
+   These styles apply to the CMS preview pane
+   to give editors a consistent visual preview.
+   ============================================ */
+
+/* Reset */
+* {
+    box-sizing: border-box;
+}
+
+/* Base Typography */
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #1e293b;
+    background: #f8fafc;
+    padding: 24px;
+    margin: 0;
+}
+
+/* Headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #0f172a;
+    font-weight: 600;
+    line-height: 1.3;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+}
+
+h1 {
+    font-size: 2.25rem;
+}
+
+h2 {
+    font-size: 1.875rem;
+}
+
+h3 {
+    font-size: 1.5rem;
+}
+
+h4 {
+    font-size: 1.25rem;
+}
+
+h5 {
+    font-size: 1.125rem;
+}
+
+h6 {
+    font-size: 1rem;
+}
+
+/* Paragraphs */
+p {
+    margin: 1em 0;
+    color: #475569;
+}
+
+/* Links */
+a {
+    color: #0ea5e9;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: #0284c7;
+    text-decoration: underline;
+}
+
+/* Lists */
+ul,
+ol {
+    padding-left: 1.5em;
+    margin: 1em 0;
+}
+
+li {
+    margin: 0.5em 0;
+    color: #475569;
+}
+
+ul li::marker {
+    color: #0ea5e9;
+}
+
+ol li::marker {
+    color: #0ea5e9;
+    font-weight: 600;
+}
+
+/* Blockquotes */
+blockquote {
+    margin: 1.5em 0;
+    padding: 1em 1.5em;
+    border-left: 4px solid #0ea5e9;
+    background: #f1f5f9;
+    border-radius: 0 8px 8px 0;
+    font-style: italic;
+    color: #475569;
+}
+
+blockquote p {
+    margin: 0;
+}
+
+/* Code */
+code {
+    font-family: 'Fira Code', 'SF Mono', Monaco, 'Andale Mono', monospace;
+    font-size: 0.875em;
+    padding: 0.2em 0.4em;
+    background: #e2e8f0;
+    border-radius: 4px;
+    color: #0f172a;
+}
+
+pre {
+    background: #1e293b;
+    color: #e2e8f0;
+    padding: 1em 1.5em;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 1.5em 0;
+}
+
+pre code {
+    background: transparent;
+    padding: 0;
+    color: inherit;
+}
+
+/* Images */
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    margin: 1.5em 0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5em 0;
+    font-size: 0.9375rem;
+}
+
+th,
+td {
+    padding: 0.75em 1em;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+th {
+    background: #f1f5f9;
+    font-weight: 600;
+    color: #0f172a;
+}
+
+tr:hover td {
+    background: #f8fafc;
+}
+
+/* Horizontal Rule */
+hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #cbd5e1, transparent);
+    margin: 2em 0;
+}
+
+/* Strong & Emphasis */
+strong {
+    font-weight: 600;
+    color: #0f172a;
+}
+
+em {
+    font-style: italic;
+}
+
+/* Preview Header Info */
+.preview-header {
+    background: linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%);
+    color: white;
+    padding: 24px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+}
+
+.preview-header h1 {
+    color: white;
+    margin: 0 0 8px 0;
+    font-size: 1.5rem;
+}
+
+.preview-header p {
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0;
+    font-size: 0.9375rem;
+}
+
+/* Status Badges */
+.status-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.status-badge.published {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.status-badge.draft {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+/* Tool Pills */
+.tool-pill {
+    display: inline-block;
+    padding: 4px 10px;
+    background: #e0f2fe;
+    color: #0369a1;
+    border-radius: 6px;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    margin: 2px;
+}
+
+/* Featured Badge */
+.featured-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    color: white;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+/* Media Preview */
+.media-preview {
+    background: #f1f5f9;
+    border: 2px dashed #cbd5e1;
+    border-radius: 12px;
+    padding: 32px;
+    text-align: center;
+    color: #64748b;
+}
+
+.media-preview svg {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 12px;
+    opacity: 0.5;
+}
+
+/* Info Box */
+.info-box {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 16px 0;
+}
+
+.info-box.warning {
+    background: #fffbeb;
+    border-color: #fcd34d;
+}
+
+.info-box.success {
+    background: #f0fdf4;
+    border-color: #86efac;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}

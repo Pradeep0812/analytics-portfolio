@@ -1,0 +1,617 @@
+# =============================================================================
+# DECAP CMS CONFIGURATION (ENHANCED UX v1.2)
+# Analytics Portfolio Platform
+# Production-Safe with Field Grouping & Validation
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# BACKEND CONFIGURATION
+# -----------------------------------------------------------------------------
+backend:
+  name: git-gateway
+  branch: main
+  commit_messages:
+    create: 'feat(content): create {{collection}} "{{slug}}"'
+    update: 'fix(content): update {{collection}} "{{slug}}"'
+    delete: 'chore(content): delete {{collection}} "{{slug}}"'
+    uploadMedia: 'feat(media): upload "{{path}}"'
+    deleteMedia: 'chore(media): delete "{{path}}"'
+
+# -----------------------------------------------------------------------------
+# EDITORIAL WORKFLOW
+# -----------------------------------------------------------------------------
+publish_mode: editorial_workflow
+
+# -----------------------------------------------------------------------------
+# MEDIA CONFIGURATION (Global fallback)
+# -----------------------------------------------------------------------------
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+# -----------------------------------------------------------------------------
+# SITE CONFIGURATION
+# -----------------------------------------------------------------------------
+site_url: https://your-site.netlify.app
+display_url: https://your-site.netlify.app
+logo_url: /admin/logo.svg
+
+# Slug configuration
+slug:
+  encoding: "ascii"
+  clean_accents: true
+  sanitize_replacement: "-"
+
+# -----------------------------------------------------------------------------
+# COLLECTIONS
+# -----------------------------------------------------------------------------
+collections:
+  # ===========================================================================
+  # POWER BI PROJECTS
+  # ===========================================================================
+  - name: "powerbi"
+    label: "📊 Power BI Projects"
+    label_singular: "Power BI Project"
+    description: "Interactive Power BI dashboards and business intelligence solutions"
+    icon: "chart-bar"
+    folder: "content/powerbi"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    preview_path: "powerbi/{{slug}}"
+    summary: "{{title}} • {{status}} {{#if featured}}⭐{{/if}}"
+    sortable_fields: ["order", "date", "title"]
+    # Collection-specific media
+    media_folder: "/public/uploads/powerbi"
+    public_folder: "/uploads/powerbi"
+    # View filters for quick filtering
+    view_filters:
+      - label: "✅ Published"
+        field: status
+        pattern: "published"
+      - label: "📝 Drafts"
+        field: status
+        pattern: "draft"
+      - label: "⭐ Featured"
+        field: featured
+        pattern: true
+    view_groups:
+      - label: "Status"
+        field: status
+      - label: "Year"
+        field: date
+        pattern: '\d{4}'
+    fields:
+      # ─────────────────────────────────────────
+      # BASIC INFORMATION
+      # ─────────────────────────────────────────
+      - label: "📌 Basic Information"
+        name: "basic_info"
+        widget: "object"
+        summary: "{{fields.title}}"
+        collapsed: false
+        fields:
+          - label: "Title"
+            name: "title"
+            widget: "string"
+            required: true
+            hint: "Project title displayed on cards and detail pages"
+            pattern:
+              - '.{5,100}'
+              - "Title must be 5-100 characters"
+
+          - label: "Description"
+            name: "description"
+            widget: "text"
+            required: true
+            hint: "Brief 2-3 sentence summary for project cards"
+            pattern:
+              - '.{20,500}'
+              - "Description must be 20-500 characters"
+
+          - label: "Project Date"
+            name: "date"
+            widget: "datetime"
+            required: true
+            date_format: "YYYY-MM-DD"
+            time_format: false
+            format: "YYYY-MM-DD"
+            hint: "When was this project completed?"
+
+      # ─────────────────────────────────────────
+      # MEDIA ASSETS
+      # ─────────────────────────────────────────
+      - label: "🖼️ Media Assets"
+        name: "media"
+        widget: "object"
+        summary: "{{#if fields.thumbnail}}✓ Thumbnail{{/if}}{{#if fields.video}} • ✓ Video{{/if}}"
+        collapsed: false
+        fields:
+          - label: "Thumbnail Image"
+            name: "thumbnail"
+            widget: "image"
+            required: true
+            hint: "Project preview image (recommended: 1200×675px, max 1MB)"
+            media_library:
+              config:
+                max_file_size: 1048576
+
+          - label: "Demo Video"
+            name: "video"
+            widget: "file"
+            required: false
+            hint: "Optional walkthrough video (MP4, max 50MB)"
+            media_library:
+              config:
+                max_file_size: 52428800
+
+          - label: "PDF Report"
+            name: "pdf"
+            widget: "file"
+            required: false
+            hint: "Optional PDF export of the dashboard"
+            media_library:
+              config:
+                max_file_size: 10485760
+
+      # ─────────────────────────────────────────
+      # POWER BI EMBED
+      # ─────────────────────────────────────────
+      - label: "🔗 Power BI Embed"
+        name: "embed"
+        widget: "object"
+        summary: "{{#if fields.powerbi_embed_url}}✓ Embed configured{{else}}No embed{{/if}}"
+        collapsed: true
+        fields:
+          - label: "Embed URL"
+            name: "powerbi_embed_url"
+            widget: "string"
+            required: false
+            hint: "Power BI 'Publish to web' embed URL. Leave empty if not available."
+            pattern:
+              - '^(https://app\.powerbi\.com/.*|)$'
+              - "Must be a valid Power BI embed URL or empty"
+
+      # ─────────────────────────────────────────
+      # CATEGORIZATION
+      # ─────────────────────────────────────────
+      - label: "🏷️ Categorization"
+        name: "categorization"
+        widget: "object"
+        summary: "{{fields.tools | join(', ')}}"
+        collapsed: false
+        fields:
+          - label: "Tools & Technologies"
+            name: "tools"
+            widget: "list"
+            required: true
+            hint: "Add all tools used (Power BI, DAX, Power Query, SQL, etc.)"
+            default:
+              - "Power BI"
+            field:
+              widget: "string"
+
+          - label: "Tags"
+            name: "tags"
+            widget: "list"
+            required: false
+            hint: "Add tags for filtering (Sales, Finance, HR, Executive, etc.)"
+            field:
+              widget: "string"
+
+      # ─────────────────────────────────────────
+      # DISPLAY SETTINGS
+      # ─────────────────────────────────────────
+      - label: "⚙️ Display Settings"
+        name: "display"
+        widget: "object"
+        summary: "Order: {{fields.order}} • Status: {{fields.status}}"
+        collapsed: false
+        fields:
+          - label: "Display Order"
+            name: "order"
+            widget: "number"
+            required: true
+            default: 10
+            min: 0
+            max: 100
+            hint: "Lower numbers appear first (0-100). Use multiples of 10 for easy reordering."
+
+          - label: "Status"
+            name: "status"
+            widget: "select"
+            options:
+              - { label: "📝 Draft (hidden from site)", value: "draft" }
+              - { label: "✅ Published (visible on site)", value: "published" }
+            default: "draft"
+            required: true
+            hint: "Only published projects appear on the frontend"
+
+          - label: "Featured"
+            name: "featured"
+            widget: "boolean"
+            default: false
+            required: false
+            hint: "Featured projects appear on the homepage"
+
+      # ─────────────────────────────────────────
+      # DETAILED CONTENT
+      # ─────────────────────────────────────────
+      - label: "📝 Detailed Content"
+        name: "body"
+        widget: "markdown"
+        required: false
+        hint: "Add detailed project description, methodology, insights, and key findings"
+        buttons:
+          - bold
+          - italic
+          - link
+          - heading-two
+          - heading-three
+          - bulleted-list
+          - numbered-list
+          - quote
+          - code
+          - image
+        editor_components:
+          - image
+          - code-block
+
+  # ===========================================================================
+  # TABLEAU PROJECTS
+  # ===========================================================================
+  - name: "tableau"
+    label: "📈 Tableau Projects"
+    label_singular: "Tableau Project"
+    description: "Interactive Tableau visualizations and analytical dashboards"
+    icon: "presentation-chart-line"
+    folder: "content/tableau"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    preview_path: "tableau/{{slug}}"
+    summary: "{{title}} • {{status}} {{#if featured}}⭐{{/if}}"
+    sortable_fields: ["order", "date", "title"]
+    media_folder: "/public/uploads/tableau"
+    public_folder: "/uploads/tableau"
+    view_filters:
+      - label: "✅ Published"
+        field: status
+        pattern: "published"
+      - label: "📝 Drafts"
+        field: status
+        pattern: "draft"
+      - label: "⭐ Featured"
+        field: featured
+        pattern: true
+    view_groups:
+      - label: "Status"
+        field: status
+    fields:
+      # Basic Information
+      - label: "📌 Basic Information"
+        name: "basic_info"
+        widget: "object"
+        collapsed: false
+        fields:
+          - label: "Title"
+            name: "title"
+            widget: "string"
+            required: true
+            hint: "Project title"
+            pattern: ['.{5,100}', "Title must be 5-100 characters"]
+
+          - label: "Description"
+            name: "description"
+            widget: "text"
+            required: true
+            hint: "Brief summary for project cards"
+            pattern: ['.{20,500}', "Description must be 20-500 characters"]
+
+          - label: "Project Date"
+            name: "date"
+            widget: "datetime"
+            required: true
+            date_format: "YYYY-MM-DD"
+            time_format: false
+            format: "YYYY-MM-DD"
+
+      # Media Assets
+      - label: "🖼️ Media Assets"
+        name: "media"
+        widget: "object"
+        collapsed: false
+        fields:
+          - label: "Thumbnail"
+            name: "thumbnail"
+            widget: "image"
+            required: true
+            hint: "Project preview (1200×675px, max 1MB)"
+            media_library:
+              config:
+                max_file_size: 1048576
+
+          - label: "Demo Video"
+            name: "video"
+            widget: "file"
+            required: false
+            hint: "Optional walkthrough (MP4)"
+
+          - label: "PDF Report"
+            name: "pdf"
+            widget: "file"
+            required: false
+
+      # Tableau Embed
+      - label: "🔗 Tableau Public Embed"
+        name: "embed"
+        widget: "object"
+        collapsed: true
+        fields:
+          - label: "Tableau Public URL"
+            name: "powerbi_embed_url"
+            widget: "string"
+            required: false
+            hint: "Tableau Public embed URL"
+
+      # Categorization
+      - label: "🏷️ Categorization"
+        name: "categorization"
+        widget: "object"
+        collapsed: false
+        fields:
+          - label: "Tools"
+            name: "tools"
+            widget: "list"
+            required: true
+            default: ["Tableau"]
+            field: { widget: "string" }
+
+          - label: "Tags"
+            name: "tags"
+            widget: "list"
+            required: false
+            field: { widget: "string" }
+
+      # Display Settings
+      - label: "⚙️ Display Settings"
+        name: "display"
+        widget: "object"
+        collapsed: false
+        fields:
+          - label: "Order"
+            name: "order"
+            widget: "number"
+            required: true
+            default: 10
+            min: 0
+            max: 100
+            hint: "Lower = appears first"
+
+          - label: "Status"
+            name: "status"
+            widget: "select"
+            options:
+              - { label: "📝 Draft", value: "draft" }
+              - { label: "✅ Published", value: "published" }
+            default: "draft"
+            required: true
+
+          - label: "Featured"
+            name: "featured"
+            widget: "boolean"
+            default: false
+
+      # Content
+      - label: "📝 Detailed Content"
+        name: "body"
+        widget: "markdown"
+        required: false
+
+  # ===========================================================================
+  # EXCEL PROJECTS
+  # ===========================================================================
+  - name: "excel"
+    label: "📑 Excel Projects"
+    label_singular: "Excel Project"
+    description: "Advanced Excel models, templates, and automation solutions"
+    icon: "table-cells"
+    folder: "content/excel"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    preview_path: "excel/{{slug}}"
+    summary: "{{title}} • {{status}} {{#if featured}}⭐{{/if}}"
+    sortable_fields: ["order", "date", "title"]
+    media_folder: "/public/uploads/excel"
+    public_folder: "/uploads/excel"
+    view_filters:
+      - label: "✅ Published"
+        field: status
+        pattern: "published"
+      - label: "📝 Drafts"
+        field: status
+        pattern: "draft"
+      - label: "⭐ Featured"
+        field: featured
+        pattern: true
+    view_groups:
+      - label: "Status"
+        field: status
+    fields:
+      # Basic Information
+      - label: "📌 Basic Information"
+        name: "basic_info"
+        widget: "object"
+        collapsed: false
+        fields:
+          - label: "Title"
+            name: "title"
+            widget: "string"
+            required: true
+            pattern: ['.{5,100}', "Title must be 5-100 characters"]
+
+          - label: "Description"
+            name: "description"
+            widget: "text"
+            required: true
+            pattern: ['.{20,500}', "Description must be 20-500 characters"]
+
+          - label: "Project Date"
+            name: "date"
+            widget: "datetime"
+            required: true
+            date_format: "YYYY-MM-DD"
+            time_format: false
+            format: "YYYY-MM-DD"
+
+      # Media Assets
+      - label: "🖼️ Media Assets"
+        name: "media"
+        widget: "object"
+        collapsed: false
+        fields:
+          - label: "Thumbnail"
+            name: "thumbnail"
+            widget: "image"
+            required: true
+            media_library:
+              config:
+                max_file_size: 1048576
+
+          - label: "Demo Video"
+            name: "video"
+            widget: "file"
+            required: false
+
+          - label: "PDF Report"
+            name: "pdf"
+            widget: "file"
+            required: false
+
+      # Downloadable File
+      - label: "📥 Downloadable File"
+        name: "download"
+        widget: "object"
+        collapsed: true
+        fields:
+          - label: "Excel File"
+            name: "powerbi_embed_url"
+            widget: "file"
+            required: false
+            hint: "Upload the Excel file for users to download"
+            media_library:
+              config:
+                max_file_size: 10485760
+
+      # Categorization
+      - label: "🏷️ Categorization"
+        name: "categorization"
+        widget: "object"
+        collapsed: false
+        fields:
+          - label: "Tools"
+            name: "tools"
+            widget: "list"
+            required: true
+            default: ["Excel"]
+            field: { widget: "string" }
+
+          - label: "Tags"
+            name: "tags"
+            widget: "list"
+            required: false
+            field: { widget: "string" }
+
+      # Display Settings
+      - label: "⚙️ Display Settings"
+        name: "display"
+        widget: "object"
+        collapsed: false
+        fields:
+          - label: "Order"
+            name: "order"
+            widget: "number"
+            required: true
+            default: 10
+            min: 0
+            max: 100
+
+          - label: "Status"
+            name: "status"
+            widget: "select"
+            options:
+              - { label: "📝 Draft", value: "draft" }
+              - { label: "✅ Published", value: "published" }
+            default: "draft"
+            required: true
+
+          - label: "Featured"
+            name: "featured"
+            widget: "boolean"
+            default: false
+
+      # Content
+      - label: "📝 Detailed Content"
+        name: "body"
+        widget: "markdown"
+        required: false
+
+  # ===========================================================================
+  # SITE SETTINGS
+  # ===========================================================================
+  - name: "settings"
+    label: "⚙️ Site Settings"
+    description: "Global site configuration"
+    files:
+      - name: "general"
+        label: "General Settings"
+        file: "content/settings/general.json"
+        fields:
+          - label: "🌐 Site Information"
+            name: "site"
+            widget: "object"
+            fields:
+              - label: "Site Title"
+                name: "title"
+                widget: "string"
+                default: "Analytics Portfolio"
+
+              - label: "Site Description"
+                name: "description"
+                widget: "text"
+                default: "Professional analytics portfolio showcasing data visualization expertise"
+
+          - label: "👤 Personal Information"
+            name: "personal"
+            widget: "object"
+            fields:
+              - label: "Your Name"
+                name: "author"
+                widget: "string"
+
+              - label: "Job Title"
+                name: "role"
+                widget: "string"
+                default: "Data Analyst | Power BI Developer"
+
+          - label: "📬 Contact Links"
+            name: "contact"
+            widget: "object"
+            fields:
+              - label: "Email"
+                name: "email"
+                widget: "string"
+                required: false
+                hint: "Your professional email address"
+
+              - label: "LinkedIn URL"
+                name: "linkedin"
+                widget: "string"
+                required: false
+                hint: "Full LinkedIn profile URL"
+
+              - label: "GitHub URL"
+                name: "github"
+                widget: "string"
+                required: false
+                hint: "Full GitHub profile URL"
