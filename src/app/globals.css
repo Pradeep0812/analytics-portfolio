@@ -31,17 +31,17 @@
   --radius-2xl: 24px;
   --radius-full: 9999px;
 
-  /* Shadows - Light Mode */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
-  --shadow-soft: 0 10px 40px rgba(0, 0, 0, 0.08);
-  --shadow-glow: 0 0 20px rgba(14, 165, 233, 0.15);
+  /* Shadows - Carbon Graphite Theme */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+  --shadow-soft: 0 10px 40px rgba(0, 0, 0, 0.3);
+  --shadow-glow: 0 0 20px rgba(34, 211, 238, 0.25);
 
   /* Transitions */
   --transition-fast: 150ms ease;
-  --transition-base: 200ms ease;
+  --transition-base: 200ms ease-out;
   --transition-slow: 300ms ease;
   --transition-smooth: 400ms cubic-bezier(0.4, 0, 0.2, 1);
 
@@ -55,28 +55,28 @@
   --z-popover: 600;
   --z-toast: 700;
 
-  /* Colors - Light Mode */
-  --color-bg: 248 250 252;
-  --color-surface: 255 255 255;
-  --color-surface-elevated: 255 255 255;
-  --color-border: 226 232 240;
-  --color-border-hover: 203 213 225;
+  /* Colors - Carbon Graphite Theme (Dark Default) */
+  --color-bg: 11 15 20;
+  --color-surface: 17 24 39;
+  --color-surface-elevated: 31 41 51;
+  --color-border: 31 41 55;
+  --color-border-hover: 55 65 81;
 }
 
-/* Dark Mode Variables */
+/* Dark Mode Variables (same as default for Carbon Graphite) */
 .dark {
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
-  --shadow-soft: 0 10px 40px rgba(0, 0, 0, 0.3);
-  --shadow-glow: 0 0 30px rgba(14, 165, 233, 0.2);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -2px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.4);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+  --shadow-soft: 0 10px 40px rgba(0, 0, 0, 0.4);
+  --shadow-glow: 0 0 30px rgba(34, 211, 238, 0.3);
 
-  --color-bg: 2 6 23;
-  --color-surface: 15 23 42;
-  --color-surface-elevated: 30 41 59;
-  --color-border: 51 65 85;
-  --color-border-hover: 71 85 105;
+  --color-bg: 11 15 20;
+  --color-surface: 17 24 39;
+  --color-surface-elevated: 31 41 51;
+  --color-border: 31 41 55;
+  --color-border-hover: 55 65 81;
 }
 
 /* =============================================================================
@@ -165,13 +165,13 @@
   }
 
   .btn-primary {
-    @apply bg-primary-600 hover:bg-primary-700 text-white;
-    @apply focus-visible:ring-primary-500;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(14, 165, 233, 0.2);
+    @apply bg-primary-500 hover:bg-primary-600 text-surface-900;
+    @apply focus-visible:ring-accent-500;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2), 0 1px 3px rgba(34, 211, 238, 0.15);
   }
 
   .btn-primary:hover {
-    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+    box-shadow: 0 4px 12px rgba(34, 211, 238, 0.25);
   }
 
   .btn-secondary {
@@ -185,20 +185,20 @@
     @apply text-surface-600 dark:text-surface-400;
   }
 
-  /* Gradient backgrounds */
+  /* Gradient backgrounds - Carbon Graphite */
   .gradient-primary {
     @apply bg-gradient-to-r from-primary-500 to-primary-600;
   }
 
   .gradient-accent {
-    @apply bg-gradient-to-r from-accent-500 to-purple-600;
+    @apply bg-gradient-to-r from-accent-500 to-accent-600;
   }
 
   .gradient-hero {
     background: linear-gradient(135deg,
-        rgba(14, 165, 233, 0.05) 0%,
-        rgba(217, 70, 239, 0.05) 50%,
-        rgba(14, 165, 233, 0.05) 100%);
+        rgba(31, 41, 51, 0.8) 0%,
+        rgba(17, 24, 39, 0.9) 50%,
+        rgba(11, 15, 20, 1) 100%);
   }
 
   /* Glass effect */
@@ -288,9 +288,9 @@
     box-shadow: var(--shadow-glow);
   }
 
-  /* Text gradient */
+  /* Text gradient - Carbon Graphite with Cyan accent */
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-500 to-accent-500;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-accent-400 to-accent-500;
   }
 
   /* Hide scrollbar but keep functionality */
