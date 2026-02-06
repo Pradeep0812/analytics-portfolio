@@ -28,6 +28,8 @@ export interface ProjectFrontmatter {
     video?: string;
     pdf?: string;
     powerbi_embed_url?: string;
+    tableau_embed_url?: string;
+    download?: string;
     tools: string[];
     tags?: string[];
     order: number;

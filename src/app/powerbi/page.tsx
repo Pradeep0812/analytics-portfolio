@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import ProjectGrid from '@/components/ProjectGrid';
+import ProjectFilter from '@/components/ProjectFilter';
 import { getProjects, getCategoryInfo } from '@/lib/content';
 
 export const metadata: Metadata = {
-    title: 'Power BI Projects | Analytics Portfolio',
-    description: 'Interactive Power BI dashboards and business intelligence solutions showcasing data visualization, DAX calculations, and enterprise reporting.',
+    title: 'Power BI | Case Studies',
+    description: 'Power BI case studies documenting interactive dashboards, DAX calculations, and enterprise reporting solutions.',
 };
 
 export default function PowerBIPage() {
@@ -13,43 +13,39 @@ export default function PowerBIPage() {
     const categoryInfo = getCategoryInfo('powerbi');
 
     return (
-        <div className="pt-20 lg:pt-24">
-            {/* Header */}
-            <section className="py-12 lg:py-20 bg-gradient-to-br from-amber-50 via-orange-50 to-white dark:from-surface-900 dark:via-surface-900 dark:to-surface-950">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="section">
+            <div className="container-wide">
+                {/* Header */}
+                <div className="section-header">
                     {/* Breadcrumb */}
-                    <nav className="flex items-center gap-2 text-sm text-surface-500 mb-6">
-                        <Link href="/" className="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                    <nav className="flex items-center gap-2 text-sm text-surface-500 dark:text-surface-400 mb-4">
+                        <Link href="/" className="hover:text-accent-600 dark:hover:text-accent-400">
                             Home
                         </Link>
                         <span>/</span>
-                        <span className="text-surface-900 dark:text-white">Power BI</span>
+                        <span className="text-surface-900 dark:text-surface-50">Power BI</span>
                     </nav>
-                    <div className="flex items-start gap-6">
-                        <div className="flex-shrink-0 w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center text-3xl shadow-lg">
-                            {categoryInfo?.icon}
-                        </div>
-                        <div>
-                            <h1 className="text-3xl sm:text-4xl font-bold text-surface-900 dark:text-white mb-3">
-                                Power BI Projects
-                            </h1>
-                            <p className="text-lg text-surface-600 dark:text-surface-300 max-w-2xl">
-                                {categoryInfo?.description}
-                            </p>
-                            <div className="mt-4 text-sm text-surface-500">
-                                {projects.length} {projects.length === 1 ? 'project' : 'projects'}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
 
-            {/* Projects Grid */}
-            <section className="py-12 lg:py-20">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <ProjectGrid projects={projects} emptyMessage="No Power BI projects published yet." />
+                    <div className="flex items-center gap-4 mb-2">
+                        <span className="text-3xl">{categoryInfo?.icon}</span>
+                        <h1>Power BI Case Studies</h1>
+                    </div>
+                    <p className="text-surface-600 dark:text-surface-400 max-w-2xl">
+                        {categoryInfo?.description}
+                    </p>
                 </div>
-            </section>
+
+                {/* Projects with Filter */}
+                {projects.length === 0 ? (
+                    <div className="panel p-12 text-center">
+                        <p className="text-surface-500 dark:text-surface-400">
+                            No Power BI case studies published yet.
+                        </p>
+                    </div>
+                ) : (
+                    <ProjectFilter projects={projects} />
+                )}
+            </div>
         </div>
     );
 }

@@ -6,7 +6,8 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import VideoPlayer from '@/components/VideoPlayer';
 import PDFViewer from '@/components/PDFViewer';
-import { getProjectBySlug, getProjectSlugs } from '@/lib/content';
+import RelatedProjects from '@/components/RelatedProjects';
+import { getProjectBySlug, getProjectSlugs, getRelatedProjects } from '@/lib/content';
 
 interface PageProps {
     params: { slug: string };
@@ -20,10 +21,10 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
     const project = getProjectBySlug('tableau', params.slug);
     if (!project) {
-        return { title: 'Project Not Found' };
+        return { title: 'Case Study Not Found' };
     }
     return {
-        title: `${project.title} | Tableau | Analytics Portfolio`,
+        title: `${project.title} | Tableau`,
         description: project.description,
         openGraph: {
             title: project.title,
@@ -40,6 +41,8 @@ export default function TableauProjectPage({ params }: PageProps) {
         notFound();
     }
 
+    const relatedProjects = getRelatedProjects(project, 3);
+
     const formattedDate = new Date(project.date).toLocaleDateString('en-US', {
         month: 'long',
         day: 'numeric',
@@ -47,87 +50,161 @@ export default function TableauProjectPage({ params }: PageProps) {
     });
 
     return (
-        <div className="pt-20 lg:pt-24">
-            <section className="py-12 lg:py-16 bg-gradient-to-br from-blue-50 via-indigo-50 to-white dark:from-surface-900 dark:via-surface-900 dark:to-surface-950">
-                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <nav className="flex items-center gap-2 text-sm text-surface-500 mb-6">
-                        <Link href="/" className="hover:text-primary-600 transition-colors">Home</Link>
-                        <span>/</span>
-                        <Link href="/tableau" className="hover:text-primary-600 transition-colors">Tableau</Link>
-                        <span>/</span>
-                        <span className="text-surface-900 dark:text-white truncate max-w-[200px]">{project.title}</span>
-                    </nav>
+        <article className="section">
+            <div className="container-tight">
+                {/* Breadcrumb */}
+                <nav className="flex items-center gap-2 text-sm text-surface-500 dark:text-surface-400 mb-8">
+                    <Link href="/" className="hover:text-accent-600 dark:hover:text-accent-400">
+                        Home
+                    </Link>
+                    <span>/</span>
+                    <Link href="/tableau" className="hover:text-accent-600 dark:hover:text-accent-400">
+                        Tableau
+                    </Link>
+                    <span>/</span>
+                    <span className="text-surface-900 dark:text-surface-50 truncate max-w-[200px]">
+                        {project.title}
+                    </span>
+                </nav>
 
+                {/* Header */}
+                <header className="mb-10 pb-8 border-b border-surface-200 dark:border-surface-700">
                     <div className="flex flex-wrap items-center gap-3 mb-4">
-                        <span className="px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-sm font-medium">
-                            Tableau
-                        </span>
+                        <span className="badge badge-default">Tableau</span>
                         {project.featured && (
-                            <span className="px-3 py-1 rounded-full bg-amber-500 text-white text-sm font-medium">Featured</span>
+                            <span className="badge badge-accent">Featured</span>
                         )}
-                        <span className="text-sm text-surface-500">{formattedDate}</span>
+                        <span className="text-sm text-surface-500 dark:text-surface-400">
+                            {formattedDate}
+                        </span>
                     </div>
 
-                    <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-surface-900 dark:text-white mb-4">
+                    <h1 className="text-2xl sm:text-3xl font-semibold text-surface-900 dark:text-surface-50 mb-4">
                         {project.title}
                     </h1>
-                    <p className="text-lg text-surface-600 dark:text-surface-300">{project.description}</p>
 
-                    <div className="flex flex-wrap gap-2 mt-6">
-                        {project.tools.map((tool) => (
-                            <span key={tool} className="px-3 py-1.5 rounded-lg bg-surface-100 dark:bg-surface-800 text-surface-700 dark:text-surface-200 text-sm font-medium">
-                                {tool}
-                            </span>
-                        ))}
+                    <p className="text-lg text-surface-600 dark:text-surface-400">
+                        {project.description}
+                    </p>
+                </header>
+
+                {/* Thumbnail */}
+                {project.thumbnail && (
+                    <div className="mb-10 rounded-lg overflow-hidden border border-surface-200 dark:border-surface-700">
+                        <Image
+                            src={project.thumbnail}
+                            alt={project.title}
+                            width={900}
+                            height={500}
+                            className="w-full h-auto"
+                            priority
+                        />
                     </div>
-                </div>
-            </section>
+                )}
 
-            <section className="py-12 lg:py-16">
-                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-                    {project.powerbi_embed_url ? (
-                        <div className="aspect-video rounded-2xl overflow-hidden bg-surface-100 dark:bg-surface-800 shadow-lg">
-                            <iframe src={project.powerbi_embed_url} className="w-full h-full border-0" title={project.title} allowFullScreen />
+                {/* Tableau Embed */}
+                {project.tableau_embed_url && (
+                    <div className="mb-10">
+                        <h2 className="text-lg font-semibold text-surface-900 dark:text-surface-50 mb-4">
+                            Interactive Visualization
+                        </h2>
+                        <div className="rounded-lg overflow-hidden border border-surface-200 dark:border-surface-700">
+                            <iframe
+                                title={project.title}
+                                src={project.tableau_embed_url}
+                                width="100%"
+                                height="600"
+                                allowFullScreen
+                                loading="lazy"
+                                className="bg-surface-100 dark:bg-surface-800"
+                            />
                         </div>
-                    ) : project.video ? (
-                        <VideoPlayer src={project.video} title={project.title} poster={project.thumbnail} />
-                    ) : project.thumbnail ? (
-                        <div className="relative aspect-video rounded-2xl overflow-hidden bg-surface-100 dark:bg-surface-800 shadow-lg">
-                            <Image src={project.thumbnail} alt={project.title} fill className="object-cover" priority />
+                    </div>
+                )}
+
+                {/* Video */}
+                {project.video && (
+                    <div className="mb-10">
+                        <h2 className="text-lg font-semibold text-surface-900 dark:text-surface-50 mb-4">
+                            Video Walkthrough
+                        </h2>
+                        <VideoPlayer src={project.video} title={project.title} />
+                    </div>
+                )}
+
+                {/* PDF */}
+                {project.pdf && (
+                    <div className="mb-10">
+                        <h2 className="text-lg font-semibold text-surface-900 dark:text-surface-50 mb-4">
+                            Documentation
+                        </h2>
+                        <PDFViewer src={project.pdf} title={project.title} />
+                    </div>
+                )}
+
+                {/* Content */}
+                {project.content && (
+                    <div className="mb-10">
+                        <div className="prose-custom">
+                            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                                {project.content}
+                            </ReactMarkdown>
                         </div>
-                    ) : null}
+                    </div>
+                )}
 
-                    {project.pdf && <PDFViewer src={project.pdf} title={`${project.title} - Report`} />}
-
-                    {project.content && (
-                        <div className="prose-custom max-w-none">
-                            <ReactMarkdown remarkPlugins={[remarkGfm]}>{project.content}</ReactMarkdown>
-                        </div>
-                    )}
-
-                    {project.tags && project.tags.length > 0 && (
-                        <div className="pt-6 border-t border-surface-200 dark:border-surface-700">
-                            <h3 className="text-sm font-medium text-surface-500 mb-3">Tags</h3>
+                {/* Tools & Tags */}
+                <div className="mb-10 pb-8 border-b border-surface-200 dark:border-surface-700">
+                    {project.tools.length > 0 && (
+                        <div className="mb-4">
+                            <h3 className="text-sm font-medium text-surface-500 dark:text-surface-400 uppercase tracking-wide mb-2">
+                                Tools
+                            </h3>
                             <div className="flex flex-wrap gap-2">
-                                {project.tags.map((tag) => (
-                                    <span key={tag} className="px-3 py-1 rounded-full bg-surface-100 dark:bg-surface-800 text-surface-600 dark:text-surface-300 text-sm">
-                                        {tag}
+                                {project.tools.map((tool) => (
+                                    <span
+                                        key={tool}
+                                        className="px-3 py-1 text-sm bg-surface-100 dark:bg-surface-700 text-surface-700 dark:text-surface-300 rounded"
+                                    >
+                                        {tool}
                                     </span>
                                 ))}
                             </div>
                         </div>
                     )}
 
-                    <div className="pt-8 border-t border-surface-200 dark:border-surface-700">
-                        <Link href="/tableau" className="inline-flex items-center gap-2 text-primary-600 dark:text-primary-400 hover:underline font-medium transition-colors">
-                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16l-4-4m0 0l4-4m-4 4h18" />
-                            </svg>
-                            Back to Tableau Projects
-                        </Link>
-                    </div>
+                    {project.tags && project.tags.length > 0 && (
+                        <div>
+                            <h3 className="text-sm font-medium text-surface-500 dark:text-surface-400 uppercase tracking-wide mb-2">
+                                Tags
+                            </h3>
+                            <div className="flex flex-wrap gap-2">
+                                {project.tags.map((tag) => (
+                                    <span
+                                        key={tag}
+                                        className="text-sm text-surface-500 dark:text-surface-400"
+                                    >
+                                        #{tag}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+                    )}
                 </div>
-            </section>
-        </div>
+
+                {/* Related Projects */}
+                <RelatedProjects projects={relatedProjects} />
+
+                {/* Back Link */}
+                <div className="mt-12 pt-8 border-t border-surface-200 dark:border-surface-700">
+                    <Link
+                        href="/tableau"
+                        className="text-sm font-medium text-accent-600 dark:text-accent-400 hover:underline underline-offset-4"
+                    >
+                        ← Back to Tableau Case Studies
+                    </Link>
+                </div>
+            </div>
+        </article>
     );
 }

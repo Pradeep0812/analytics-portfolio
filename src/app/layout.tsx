@@ -7,26 +7,26 @@ import Footer from '@/components/Footer';
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.URL || 'https://analytics-portfolio.netlify.app'),
+  metadataBase: new URL(process.env.URL || 'https://uppalapradeep.netlify.app'),
   title: {
-    default: 'Analytics Portfolio | Data Analyst & Power BI Developer',
-    template: '%s | Analytics Portfolio',
+    default: 'Analytics Platform | Enterprise Analytics Knowledge System',
+    template: '%s | Analytics Platform',
   },
-  description: 'Professional analytics portfolio showcasing Power BI, Tableau, and Excel projects. Data visualization, business intelligence, and financial modeling solutions.',
-  keywords: ['Power BI', 'Tableau', 'Excel', 'Data Analyst', 'Business Intelligence', 'Data Visualization', 'Dashboard', 'Analytics'],
-  authors: [{ name: 'Data Analyst' }],
-  creator: 'Data Analyst',
+  description: 'Enterprise analytics knowledge platform documenting case studies, methodologies, and data-driven insights across Power BI, Tableau, and Excel.',
+  keywords: ['Analytics', 'Power BI', 'Tableau', 'Excel', 'Business Intelligence', 'Data Visualization', 'Case Studies', 'Enterprise Analytics'],
+  authors: [{ name: 'Pradeep Uppala' }],
+  creator: 'Pradeep Uppala',
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    siteName: 'Analytics Portfolio',
-    title: 'Analytics Portfolio | Data Analyst & Power BI Developer',
-    description: 'Professional analytics portfolio showcasing Power BI, Tableau, and Excel projects.',
+    siteName: 'Analytics Platform',
+    title: 'Analytics Platform | Enterprise Analytics Knowledge System',
+    description: 'Enterprise analytics knowledge platform with case studies and insights.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Analytics Portfolio | Data Analyst & Power BI Developer',
-    description: 'Professional analytics portfolio showcasing Power BI, Tableau, and Excel projects.',
+    title: 'Analytics Platform | Enterprise Analytics Knowledge System',
+    description: 'Enterprise analytics knowledge platform with case studies and insights.',
   },
   robots: {
     index: true,
@@ -42,30 +42,43 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
+        {/* Dark mode initialization - prevents flash */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
                 try {
-                  var mode = localStorage.getItem('theme');
-                  if (mode === 'dark' || (!mode && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                  var stored = localStorage.getItem('theme');
+                  var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                  var isDark = stored === 'dark' || (!stored && prefersDark);
+                  if (isDark) {
                     document.documentElement.classList.add('dark');
+                  } else {
+                    document.documentElement.classList.remove('dark');
                   }
                 } catch (e) {}
               })();
             `,
           }}
         />
-        {/* Netlify Identity Widget for CMS auth redirect */}
+        {/* Netlify Identity Widget for CMS auth */}
         <script src="https://identity.netlify.com/v1/netlify-identity-widget.js" async />
       </head>
       <body className={`${inter.variable} font-sans antialiased`}>
+        {/* Skip to main content for accessibility */}
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-surface-900 text-white px-4 py-2 rounded z-50">
+          Skip to main content
+        </a>
+
         <div className="flex min-h-screen flex-col">
           <Navbar />
-          <main className="flex-1">{children}</main>
+          <main id="main-content" className="flex-1 pt-16">
+            {children}
+          </main>
           <Footer />
         </div>
-        {/* Netlify Identity redirect script */}
+
+        {/* Netlify Identity redirect */}
         <script
           dangerouslySetInnerHTML={{
             __html: `

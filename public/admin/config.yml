@@ -46,6 +46,85 @@ slug:
 # -----------------------------------------------------------------------------
 collections:
   # ===========================================================================
+  # ANALYTICS LAB / ARTICLES
+  # ===========================================================================
+  - name: "articles"
+    label: "📝 Analytics Lab"
+    label_singular: "Article"
+    description: "Long-form analytics knowledge and research articles"
+    folder: "content/articles"
+    create: true
+    delete: true
+    slug: "{{slug}}"
+    preview_path: "articles/{{slug}}"
+    summary: "{{title}} • {{category}}"
+    sortable_fields: ["date", "title", "category"]
+    view_filters:
+      - label: "✅ Published"
+        field: status
+        pattern: "published"
+      - label: "📝 Drafts"
+        field: status
+        pattern: "draft"
+    view_groups:
+      - label: "Category"
+        field: category
+      - label: "Status"
+        field: status
+    fields:
+      - label: "Title"
+        name: "title"
+        widget: "string"
+        required: true
+        pattern: ['.{10,120}', "Title must be 10-120 characters"]
+
+      - label: "Summary"
+        name: "summary"
+        widget: "text"
+        required: true
+        hint: "Brief 2-3 sentence summary for article listings"
+        pattern: ['.{50,300}', "Summary must be 50-300 characters"]
+
+      - label: "Category"
+        name: "category"
+        widget: "select"
+        required: true
+        options:
+          - { label: "Analytics", value: "Analytics" }
+          - { label: "SQL", value: "SQL" }
+          - { label: "Power BI", value: "Power BI" }
+          - { label: "AI / GenAI", value: "AI" }
+          - { label: "Trends", value: "Trends" }
+
+      - label: "Tags"
+        name: "tags"
+        widget: "list"
+        required: false
+        field: { name: "tag", widget: "string" }
+
+      - label: "Publish Date"
+        name: "date"
+        widget: "datetime"
+        required: true
+        date_format: "YYYY-MM-DD"
+        time_format: false
+        format: "YYYY-MM-DD"
+
+      - label: "Status"
+        name: "status"
+        widget: "select"
+        options:
+          - { label: "📝 Draft", value: "draft" }
+          - { label: "✅ Published", value: "published" }
+        default: "draft"
+        required: true
+
+      - label: "Content"
+        name: "body"
+        widget: "markdown"
+        required: true
+
+  # ===========================================================================
   # POWER BI PROJECTS
   # ===========================================================================
   - name: "powerbi"
@@ -817,3 +896,36 @@ collections:
               - label: "Context"
                 name: "context"
                 widget: "string"
+
+      # ─────────────────────────────────────────
+      # TESTIMONIALS
+      # ─────────────────────────────────────────
+      - name: "testimonials"
+        label: "💬 Testimonials"
+        file: "content/settings/testimonials.json"
+        fields:
+          - label: "Testimonials"
+            name: "items"
+            widget: "list"
+            hint: "Client testimonials for enterprise credibility"
+            fields:
+              - label: "Quote"
+                name: "quote"
+                widget: "text"
+                required: true
+
+              - label: "Author Title"
+                name: "author"
+                widget: "string"
+                hint: "e.g., Director of Finance"
+
+              - label: "Company/Sector"
+                name: "company"
+                widget: "string"
+                hint: "e.g., Enterprise Client, Manufacturing Sector"
+
+              - label: "Context"
+                name: "context"
+                widget: "string"
+                hint: "e.g., Power BI Implementation"
+

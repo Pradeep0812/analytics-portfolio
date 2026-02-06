@@ -101,6 +101,8 @@ function parseProject(
         video: normalized.video as string | undefined,
         pdf: normalized.pdf as string | undefined,
         powerbi_embed_url: normalized.powerbi_embed_url as string | undefined,
+        tableau_embed_url: normalized.tableau_embed_url as string | undefined,
+        download: normalized.download as string | undefined,
         tools: (normalized.tools as string[]) || [],
         tags: normalized.tags as string[] | undefined,
         order: (normalized.order as number) ?? 0,
@@ -319,6 +321,7 @@ interface SkillItem {
     name: string;
     context: string;
     problems?: string;
+    tools?: string;
 }
 
 interface SkillsSettings {
@@ -475,3 +478,196 @@ export const getCategoryInfo = (
 ): CategoryInfo | undefined => {
     return CATEGORY_INFO.find((c: CategoryInfo) => c.id === category);
 };
+
+// =============================================================================
+// ARTICLES (ANALYTICS LAB)
+// =============================================================================
+
+export interface Article {
+    title: string;
+    summary: string;
+    category: string;
+    tags: string[];
+    date: string;
+    status: 'draft' | 'published';
+    slug: string;
+    content: string;
+}
+
+/**
+ * Get all published articles
+ */
+export const getArticles = cache((): Article[] => {
+    const articlesDir = path.join(CONTENT_ROOT, 'articles');
+
+    if (!fs.existsSync(articlesDir)) {
+        return [];
+    }
+
+    const files = fs.readdirSync(articlesDir);
+
+    return files
+        .filter((file: string) => file.endsWith('.md'))
+        .map((filename: string) => {
+            const filePath = path.join(articlesDir, filename);
+            const fileContents = fs.readFileSync(filePath, 'utf-8');
+            const { data, content } = matter(fileContents);
+
+            return {
+                title: (data.title as string) || 'Untitled',
+                summary: (data.summary as string) || '',
+                category: (data.category as string) || 'Analytics',
+                tags: (data.tags as string[]) || [],
+                date: (data.date as string) || new Date().toISOString(),
+                status: (data.status as 'draft' | 'published') || 'draft',
+                slug: filename.replace(/\.md$/, '').toLowerCase(),
+                content,
+            };
+        })
+        .filter((article: Article) => article.status === 'published')
+        .sort((a: Article, b: Article) =>
+            new Date(b.date).getTime() - new Date(a.date).getTime()
+        );
+});
+
+/**
+ * Get article by slug
+ */
+export const getArticleBySlug = (slug: string): Article | null => {
+    const articles = getArticles();
+    return articles.find((a: Article) => a.slug === slug) ?? null;
+};
+
+/**
+ * Get all article slugs for static generation
+ */
+export const getArticleSlugs = (): string[] => {
+    const articlesDir = path.join(CONTENT_ROOT, 'articles');
+
+    if (!fs.existsSync(articlesDir)) {
+        return [];
+    }
+
+    return fs.readdirSync(articlesDir)
+        .filter((file: string) => file.endsWith('.md'))
+        .map((file: string) => file.replace(/\.md$/, '').toLowerCase());
+};
+
+/**
+ * Get articles by category
+ */
+export const getArticlesByCategory = (category: string): Article[] => {
+    return getArticles().filter((a: Article) => a.category === category);
+};
+
+// =============================================================================
+// TESTIMONIALS
+// =============================================================================
+
+export interface Testimonial {
+    quote: string;
+    author: string;
+    company: string;
+    context: string;
+}
+
+/**
+ * Get testimonials from settings
+ */
+export const getTestimonials = cache((): Testimonial[] => {
+    const testimonialsFile = path.join(CONTENT_ROOT, 'settings', 'testimonials.json');
+
+    if (!fs.existsSync(testimonialsFile)) {
+        return [];
+    }
+
+    try {
+        const contents = fs.readFileSync(testimonialsFile, 'utf-8');
+        const data = JSON.parse(contents);
+        return data.items || [];
+    } catch {
+        return [];
+    }
+});
+
+// =============================================================================
+// RELATED PROJECTS
+// =============================================================================
+
+/**
+ * Get related projects based on shared tags/tools
+ */
+export const getRelatedProjects = (
+    currentProject: Project,
+    limit: number = 3
+): Project[] => {
+    const allProjects = getAllProjects();
+
+    return allProjects
+        .filter((p: Project) => p.slug !== currentProject.slug)
+        .map((p: Project) => {
+            // Score by matching tags and tools
+            const tagMatches = currentProject.tags?.filter(
+                (t: string) => p.tags?.includes(t)
+            ).length || 0;
+            const toolMatches = currentProject.tools.filter(
+                (t: string) => p.tools.includes(t)
+            ).length;
+            const categoryMatch = p.category === currentProject.category ? 2 : 0;
+
+            return { project: p, score: tagMatches + toolMatches + categoryMatch };
+        })
+        .filter(({ score }) => score > 0)
+        .sort((a, b) => b.score - a.score)
+        .slice(0, limit)
+        .map(({ project }) => project);
+};
+
+// =============================================================================
+// SEARCH INDEX
+// =============================================================================
+
+export interface SearchResult {
+    type: 'project' | 'article';
+    title: string;
+    description: string;
+    url: string;
+    category?: string;
+    tags?: string[];
+}
+
+/**
+ * Get search index for all content
+ */
+export const getSearchIndex = cache((): SearchResult[] => {
+    const results: SearchResult[] = [];
+
+    // Add projects
+    const projects = getAllProjects();
+    projects.forEach((p: Project) => {
+        results.push({
+            type: 'project',
+            title: p.title,
+            description: p.description,
+            url: `/${p.category}/${p.slug}`,
+            category: p.category,
+            tags: p.tags,
+        });
+    });
+
+    // Add articles
+    const articles = getArticles();
+    articles.forEach((a: Article) => {
+        results.push({
+            type: 'article',
+            title: a.title,
+            description: a.summary,
+            url: `/articles/${a.slug}`,
+            category: a.category,
+            tags: a.tags,
+        });
+    });
+
+    return results;
+});
+
