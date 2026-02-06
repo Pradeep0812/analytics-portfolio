@@ -140,7 +140,7 @@ collections:
     summary: "{{title}} • {{status}} {{#if featured}}⭐{{/if}}"
     sortable_fields: ["order", "date", "title"]
     # Collection-specific media
-    media_folder: "/public/uploads/powerbi"
+    media_folder: "public/uploads/powerbi"
     public_folder: "/uploads/powerbi"
     # View filters for quick filtering
     view_filters:
@@ -344,7 +344,7 @@ collections:
     preview_path: "tableau/{{slug}}"
     summary: "{{title}} • {{status}} {{#if featured}}⭐{{/if}}"
     sortable_fields: ["order", "date", "title"]
-    media_folder: "/public/uploads/tableau"
+    media_folder: "public/uploads/tableau"
     public_folder: "/uploads/tableau"
     view_filters:
       - label: "✅ Published"
@@ -495,7 +495,7 @@ collections:
     preview_path: "excel/{{slug}}"
     summary: "{{title}} • {{status}} {{#if featured}}⭐{{/if}}"
     sortable_fields: ["order", "date", "title"]
-    media_folder: "/public/uploads/excel"
+    media_folder: "public/uploads/excel"
     public_folder: "/uploads/excel"
     view_filters:
       - label: "✅ Published"
@@ -568,7 +568,7 @@ collections:
         collapsed: true
         fields:
           - label: "Excel File"
-            name: "powerbi_embed_url"
+            name: "download"
             widget: "file"
             required: false
             hint: "Upload the Excel file for users to download"
