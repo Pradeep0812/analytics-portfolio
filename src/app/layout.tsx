@@ -34,6 +34,8 @@ export const metadata: Metadata = {
   },
 };
 
+import GoogleAnalytics from '@/components/GoogleAnalytics';
+
 export default function RootLayout({
   children,
 }: {
@@ -65,6 +67,9 @@ export default function RootLayout({
         <script src="https://identity.netlify.com/v1/netlify-identity-widget.js" async />
       </head>
       <body className={`${inter.variable} font-sans antialiased`}>
+        {/* Google Analytics - Only runs if ID is present */}
+        <GoogleAnalytics GA_MEASUREMENT_ID={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || ''} />
+
         {/* Skip to main content for accessibility */}
         <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-surface-900 text-white px-4 py-2 rounded z-50">
           Skip to main content
