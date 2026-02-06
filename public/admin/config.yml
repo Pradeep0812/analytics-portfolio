@@ -31,8 +31,8 @@ public_folder: "/uploads"
 # -----------------------------------------------------------------------------
 # SITE CONFIGURATION
 # -----------------------------------------------------------------------------
-site_url: https://your-site.netlify.app
-display_url: https://your-site.netlify.app
+site_url: https://uppalapradeep.netlify.app
+display_url: https://uppalapradeep.netlify.app
 logo_url: /admin/logo.svg
 
 # Slug configuration
