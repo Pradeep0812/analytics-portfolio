@@ -260,10 +260,10 @@ export const getSiteSettings = cache((): SiteSettings => {
     if (!fs.existsSync(SETTINGS_FILE)) {
         // Return defaults if settings file doesn't exist
         return {
-            title: 'Analytics Portfolio',
-            description: 'Professional analytics portfolio',
+            title: 'Analytics Platform',
+            description: 'Enterprise analytics knowledge platform',
             author: 'Data Analyst',
-            role: 'Power BI Developer',
+            role: 'Senior Analytics Consultant',
         };
     }
 
@@ -274,10 +274,10 @@ export const getSiteSettings = cache((): SiteSettings => {
         // Handle nested structure from enhanced CMS config
         if (data.site || data.personal || data.contact) {
             return {
-                title: data.site?.title || data.title || 'Analytics Portfolio',
+                title: data.site?.title || data.title || 'Analytics Platform',
                 description: data.site?.description || data.description || '',
                 author: data.personal?.author || data.author || 'Data Analyst',
-                role: data.personal?.role || data.role || 'Power BI Developer',
+                role: data.personal?.role || data.role || 'Senior Analytics Consultant',
                 email: data.contact?.email || data.email,
                 linkedin: data.contact?.linkedin || data.linkedin,
                 github: data.contact?.github || data.github,
@@ -288,11 +288,164 @@ export const getSiteSettings = cache((): SiteSettings => {
         return data as SiteSettings;
     } catch {
         return {
-            title: 'Analytics Portfolio',
-            description: 'Professional analytics portfolio',
+            title: 'Analytics Platform',
+            description: 'Enterprise analytics knowledge platform',
             author: 'Data Analyst',
-            role: 'Power BI Developer',
+            role: 'Senior Analytics Consultant',
         };
+    }
+});
+
+// =============================================================================
+// NEW SETTINGS LOADERS FOR ENTERPRISE PLATFORM
+// =============================================================================
+
+interface HeroSettings {
+    hero: {
+        title: string;
+        subtitle: string;
+        statement: string;
+    };
+    stats: Array<{ value: string; label: string }>;
+}
+
+interface NavigationLink {
+    label: string;
+    href: string;
+    order: number;
+}
+
+interface SkillItem {
+    name: string;
+    context: string;
+    problems?: string;
+}
+
+interface SkillsSettings {
+    primary: SkillItem[];
+    supporting: SkillItem[];
+    familiar: Array<{ name: string; context: string }>;
+}
+
+/**
+ * Get hero/homepage settings
+ */
+export const getHeroSettings = cache((): HeroSettings => {
+    const heroFile = path.join(CONTENT_ROOT, 'settings', 'hero.json');
+
+    if (!fs.existsSync(heroFile)) {
+        return {
+            hero: {
+                title: 'Analytics Platform',
+                subtitle: 'Enterprise Analytics Knowledge System',
+                statement: 'Documenting analytical methodologies and data-driven insights.',
+            },
+            stats: [
+                { value: '5+', label: 'Years in Analytics' },
+                { value: '50+', label: 'Case Studies' },
+                { value: '20+', label: 'Enterprise Clients' },
+            ],
+        };
+    }
+
+    try {
+        const contents = fs.readFileSync(heroFile, 'utf-8');
+        return JSON.parse(contents);
+    } catch {
+        return {
+            hero: {
+                title: 'Analytics Platform',
+                subtitle: 'Enterprise Analytics Knowledge System',
+                statement: 'Documenting analytical methodologies and data-driven insights.',
+            },
+            stats: [],
+        };
+    }
+});
+
+/**
+ * Get navigation settings
+ */
+export const getNavigationLinks = cache((): NavigationLink[] => {
+    const navFile = path.join(CONTENT_ROOT, 'settings', 'navigation.json');
+
+    if (!fs.existsSync(navFile)) {
+        return [
+            { label: 'Home', href: '/', order: 1 },
+            { label: 'Power BI', href: '/powerbi', order: 2 },
+            { label: 'Tableau', href: '/tableau', order: 3 },
+            { label: 'Excel', href: '/excel', order: 4 },
+        ];
+    }
+
+    try {
+        const contents = fs.readFileSync(navFile, 'utf-8');
+        const data = JSON.parse(contents);
+        return (data.links || []).sort((a: NavigationLink, b: NavigationLink) => a.order - b.order);
+    } catch {
+        return [];
+    }
+});
+
+/**
+ * Get skills framework settings
+ */
+export const getSkillsSettings = cache((): SkillsSettings => {
+    const skillsFile = path.join(CONTENT_ROOT, 'settings', 'skills.json');
+
+    if (!fs.existsSync(skillsFile)) {
+        return { primary: [], supporting: [], familiar: [] };
+    }
+
+    try {
+        const contents = fs.readFileSync(skillsFile, 'utf-8');
+        return JSON.parse(contents);
+    } catch {
+        return { primary: [], supporting: [], familiar: [] };
+    }
+});
+
+/**
+ * Get about page content (markdown)
+ */
+export const getAboutContent = cache((): { title: string; content: string } => {
+    const aboutFile = path.join(CONTENT_ROOT, 'settings', 'about.md');
+
+    if (!fs.existsSync(aboutFile)) {
+        return { title: 'About', content: '' };
+    }
+
+    try {
+        const contents = fs.readFileSync(aboutFile, 'utf-8');
+        const { data, content } = matter(contents);
+        return {
+            title: (data.title as string) || 'About',
+            content,
+        };
+    } catch {
+        return { title: 'About', content: '' };
+    }
+});
+
+/**
+ * Get professional profile content (markdown)
+ */
+export const getProfileContent = cache((): { title: string; content: string } => {
+    const profileFile = path.join(CONTENT_ROOT, 'settings', 'profile.md');
+
+    if (!fs.existsSync(profileFile)) {
+        return { title: 'Professional Profile', content: '' };
+    }
+
+    try {
+        const contents = fs.readFileSync(profileFile, 'utf-8');
+        const { data, content } = matter(contents);
+        return {
+            title: (data.title as string) || 'Professional Profile',
+            content,
+        };
+    } catch {
+        return { title: 'Professional Profile', content: '' };
     }
 });
 

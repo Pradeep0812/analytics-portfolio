@@ -1,9 +1,15 @@
 {
-    "title": "Analytics Portfolio",
-    "description": "Professional analytics portfolio showcasing Power BI, Tableau, and Excel projects",
-    "author": "Your Name",
-    "role": "Data Analyst | Power BI Developer",
-    "email": "",
-    "linkedin": "",
-    "github": ""
+    "site": {
+        "title": "Analytics Platform",
+        "description": "Enterprise analytics knowledge platform documenting data-driven insights, case studies, and analytical methodologies."
+    },
+    "personal": {
+        "author": "Pradeep Uppala",
+        "role": "Senior Data Analyst | Analytics Consultant"
+    },
+    "contact": {
+        "email": "",
+        "linkedin": "",
+        "github": ""
+    }
 }

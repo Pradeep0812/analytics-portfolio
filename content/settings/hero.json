@@ -1,0 +1,21 @@
+{
+    "hero": {
+        "title": "Analytics Platform",
+        "subtitle": "Enterprise Analytics Knowledge System",
+        "statement": "Documenting analytical methodologies, case studies, and data-driven insights for business decision-making."
+    },
+    "stats": [
+        {
+            "value": "5+",
+            "label": "Years in Analytics"
+        },
+        {
+            "value": "50+",
+            "label": "Case Studies"
+        },
+        {
+            "value": "20+",
+            "label": "Enterprise Clients"
+        }
+    ]
+}

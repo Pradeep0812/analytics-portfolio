@@ -1,0 +1,29 @@
+{
+    "links": [
+        {
+            "label": "Home",
+            "href": "/",
+            "order": 1
+        },
+        {
+            "label": "Case Studies",
+            "href": "/case-studies",
+            "order": 2
+        },
+        {
+            "label": "Power BI",
+            "href": "/powerbi",
+            "order": 3
+        },
+        {
+            "label": "Tableau",
+            "href": "/tableau",
+            "order": 4
+        },
+        {
+            "label": "Excel",
+            "href": "/excel",
+            "order": 5
+        }
+    ]
+}

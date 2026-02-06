@@ -1,24 +1,23 @@
-'use client';
-
 import React from 'react';
 import Link from 'next/link';
 
 /**
- * Site footer with navigation, social links, and copyright
+ * Enterprise Footer
+ * Clean, minimal footer for analytics platform
  */
 export default function Footer() {
     const currentYear = new Date().getFullYear();
 
     const navLinks = [
-        { href: '/', label: 'Home' },
-        { href: '/powerbi', label: 'Power BI' },
-        { href: '/tableau', label: 'Tableau' },
-        { href: '/excel', label: 'Excel' },
+        { label: 'Home', href: '/' },
+        { label: 'Power BI', href: '/powerbi' },
+        { label: 'Tableau', href: '/tableau' },
+        { label: 'Excel', href: '/excel' },
     ];
 
     const socialLinks = [
         {
-            name: 'LinkedIn',
+            label: 'LinkedIn',
             href: 'https://linkedin.com',
             icon: (
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -27,7 +26,7 @@ export default function Footer() {
             ),
         },
         {
-            name: 'GitHub',
+            label: 'GitHub',
             href: 'https://github.com',
             icon: (
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -35,94 +34,52 @@ export default function Footer() {
                 </svg>
             ),
         },
-        {
-            name: 'Email',
-            href: 'mailto:contact@example.com',
-            icon: (
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-            ),
-        },
     ];
 
     return (
-        <footer className="bg-surface-50 dark:bg-surface-900 border-t border-surface-200 dark:border-surface-800">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                {/* Main footer content */}
-                <div className="py-12 lg:py-16 grid md:grid-cols-3 gap-8 lg:gap-12">
-                    {/* Brand */}
-                    <div className="md:col-span-1">
-                        <Link href="/" className="inline-flex items-center gap-3 group">
-                            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center text-white text-lg font-bold shadow-lg shadow-primary-500/25 group-hover:shadow-primary-500/40 transition-shadow">
-                                A
-                            </div>
-                            <span className="font-bold text-lg text-surface-900 dark:text-white">
-                                Analytics<span className="text-primary-500">Portfolio</span>
-                            </span>
+        <footer className="border-t border-surface-200 dark:border-surface-700 bg-surface-50 dark:bg-surface-900">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+                    {/* Brand & Copyright */}
+                    <div>
+                        <Link
+                            href="/"
+                            className="font-semibold text-surface-900 dark:text-surface-50 hover:text-accent-600 dark:hover:text-accent-400 transition-colors"
+                        >
+                            Analytics Platform
                         </Link>
-                        <p className="mt-4 text-sm text-surface-600 dark:text-surface-400 max-w-sm leading-relaxed">
-                            Transforming data into actionable insights through interactive dashboards and enterprise-grade analytics solutions.
+                        <p className="mt-2 text-sm text-surface-500 dark:text-surface-400">
+                            © {currentYear} All rights reserved.
                         </p>
                     </div>
 
                     {/* Navigation */}
-                    <div className="md:col-span-1">
-                        <h3 className="text-sm font-semibold text-surface-900 dark:text-white uppercase tracking-wider mb-4">
-                            Navigation
-                        </h3>
-                        <nav className="flex flex-col gap-3" role="navigation" aria-label="Footer navigation">
-                            {navLinks.map((link) => (
-                                <Link
-                                    key={link.href}
-                                    href={link.href}
-                                    className="text-surface-600 dark:text-surface-400 hover:text-primary-600 dark:hover:text-primary-400 text-sm transition-colors"
-                                >
-                                    {link.label}
-                                </Link>
-                            ))}
-                        </nav>
-                    </div>
+                    <nav className="flex flex-wrap gap-x-6 gap-y-2">
+                        {navLinks.map((link) => (
+                            <Link
+                                key={link.href}
+                                href={link.href}
+                                className="text-sm text-surface-600 dark:text-surface-400 hover:text-surface-900 dark:hover:text-surface-50 transition-colors"
+                            >
+                                {link.label}
+                            </Link>
+                        ))}
+                    </nav>
 
-                    {/* Connect */}
-                    <div className="md:col-span-1">
-                        <h3 className="text-sm font-semibold text-surface-900 dark:text-white uppercase tracking-wider mb-4">
-                            Connect
-                        </h3>
-                        <div className="flex gap-3">
-                            {socialLinks.map((social) => (
-                                <a
-                                    key={social.name}
-                                    href={social.href}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="w-10 h-10 rounded-xl bg-surface-100 dark:bg-surface-800 flex items-center justify-center text-surface-500 dark:text-surface-400 hover:bg-primary-500 hover:text-white transition-all duration-200 hover-scale"
-                                    aria-label={`Connect on ${social.name}`}
-                                >
-                                    {social.icon}
-                                </a>
-                            ))}
-                        </div>
-                        <p className="mt-6 text-sm text-surface-500 dark:text-surface-400">
-                            Open to freelance projects and full-time opportunities.
-                        </p>
-                    </div>
-                </div>
-
-                {/* Bottom bar */}
-                <div className="py-6 border-t border-surface-200 dark:border-surface-800 flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <p className="text-sm text-surface-500 dark:text-surface-400">
-                        © {currentYear} Analytics Portfolio. All rights reserved.
-                    </p>
-                    <div className="flex items-center gap-4 text-sm text-surface-500 dark:text-surface-400">
-                        <span>Built with Next.js & Tailwind</span>
-                        <span className="hidden sm:inline">•</span>
-                        <a
-                            href="/admin"
-                            className="hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
-                        >
-                            Admin
-                        </a>
+                    {/* Social Links */}
+                    <div className="flex gap-4">
+                        {socialLinks.map((social) => (
+                            <a
+                                key={social.label}
+                                href={social.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-surface-400 hover:text-surface-600 dark:hover:text-surface-300 transition-colors"
+                                aria-label={social.label}
+                            >
+                                {social.icon}
+                            </a>
+                        ))}
                     </div>
                 </div>
             </div>

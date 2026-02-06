@@ -1,0 +1,13 @@
+{
+    "theme": "enterprise",
+    "colors": {
+        "primary": "#57534e",
+        "accent": "#0ea5e9",
+        "background": "#fafaf9"
+    },
+    "darkMode": {
+        "primary": "#a8a29e",
+        "accent": "#38bdf8",
+        "background": "#1c1917"
+    }
+}

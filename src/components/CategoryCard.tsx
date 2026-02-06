@@ -10,55 +10,40 @@ interface CategoryCardProps {
 }
 
 /**
- * Category showcase card with gradient icon and hover effects
+ * Enterprise Category Panel
+ * Panel-based design for analytics category navigation
  */
 export default function CategoryCard({ category, projectCount }: CategoryCardProps) {
     return (
-        <Link
-            href={category.href}
-            className="group block card card-interactive p-6 lg:p-8 focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-surface-900"
-            aria-label={`View ${category.name} projects - ${projectCount} projects`}
-        >
-            {/* Gradient background on hover */}
-            <div className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-0 group-hover:opacity-5 dark:group-hover:opacity-10 transition-opacity duration-300 rounded-xl`} />
+        <Link href={category.href} className="block group">
+            <article className="panel card-interactive h-full">
+                <div className="p-6">
+                    {/* Icon */}
+                    <div className="w-10 h-10 flex items-center justify-center rounded-lg bg-surface-100 dark:bg-surface-700 text-xl mb-4">
+                        {category.icon}
+                    </div>
 
-            {/* Icon */}
-            <div className={`relative w-14 h-14 rounded-xl bg-gradient-to-br ${category.color} flex items-center justify-center text-2xl shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                {category.icon}
-                {/* Glow effect */}
-                <div className={`absolute inset-0 rounded-xl bg-gradient-to-br ${category.color} opacity-0 group-hover:opacity-50 blur-lg transition-opacity duration-300`} />
-            </div>
+                    {/* Title */}
+                    <h3 className="text-lg font-semibold text-surface-900 dark:text-surface-50 mb-2 group-hover:text-accent-600 dark:group-hover:text-accent-400 transition-colors">
+                        {category.name}
+                    </h3>
 
-            {/* Content */}
-            <div className="relative mt-5">
-                <h3 className="text-xl font-semibold text-surface-900 dark:text-white mb-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
-                    {category.name}
-                </h3>
-                <p className="text-surface-600 dark:text-surface-300 text-sm leading-relaxed mb-4 line-clamp-2">
-                    {category.description}
-                </p>
-            </div>
+                    {/* Description */}
+                    <p className="text-sm text-surface-600 dark:text-surface-400 line-clamp-2 mb-4">
+                        {category.description}
+                    </p>
 
-            {/* Footer */}
-            <div className="relative flex items-center justify-between pt-4 border-t border-surface-100 dark:border-surface-700">
-                <span className="text-sm text-surface-500 dark:text-surface-400">
-                    <span className="font-semibold text-surface-900 dark:text-white">{projectCount}</span>
-                    {' '}
-                    {projectCount === 1 ? 'project' : 'projects'}
-                </span>
-
-                {/* Arrow */}
-                <div className="w-8 h-8 rounded-full bg-surface-100 dark:bg-surface-700 flex items-center justify-center group-hover:bg-primary-500 transition-all duration-300 group-hover:translate-x-1">
-                    <svg
-                        className="w-4 h-4 text-surface-400 group-hover:text-white transition-colors"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                    >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
+                    {/* Count & Link */}
+                    <div className="flex items-center justify-between pt-4 border-t border-surface-200 dark:border-surface-700">
+                        <span className="text-sm text-surface-500 dark:text-surface-400">
+                            {projectCount} {projectCount === 1 ? 'case study' : 'case studies'}
+                        </span>
+                        <span className="text-sm font-medium text-accent-600 dark:text-accent-400 group-hover:underline underline-offset-4">
+                            View →
+                        </span>
+                    </div>
                 </div>
-            </div>
+            </article>
         </Link>
     );
 }

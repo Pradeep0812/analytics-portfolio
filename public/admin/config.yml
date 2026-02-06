@@ -557,25 +557,28 @@ collections:
     label: "⚙️ Site Settings"
     description: "Global site configuration"
     files:
+      # ─────────────────────────────────────────
+      # GENERAL SETTINGS
+      # ─────────────────────────────────────────
       - name: "general"
-        label: "General Settings"
+        label: "🌐 General Settings"
         file: "content/settings/general.json"
         fields:
-          - label: "🌐 Site Information"
+          - label: "Site Information"
             name: "site"
             widget: "object"
             fields:
               - label: "Site Title"
                 name: "title"
                 widget: "string"
-                default: "Analytics Portfolio"
+                default: "Analytics Platform"
 
               - label: "Site Description"
                 name: "description"
                 widget: "text"
-                default: "Professional analytics portfolio showcasing data visualization expertise"
+                default: "Enterprise analytics knowledge platform"
 
-          - label: "👤 Personal Information"
+          - label: "Personal Information"
             name: "personal"
             widget: "object"
             fields:
@@ -586,9 +589,9 @@ collections:
               - label: "Job Title"
                 name: "role"
                 widget: "string"
-                default: "Data Analyst | Power BI Developer"
+                default: "Senior Data Analyst"
 
-          - label: "📬 Contact Links"
+          - label: "Contact Links"
             name: "contact"
             widget: "object"
             fields:
@@ -596,16 +599,221 @@ collections:
                 name: "email"
                 widget: "string"
                 required: false
-                hint: "Your professional email address"
 
               - label: "LinkedIn URL"
                 name: "linkedin"
                 widget: "string"
                 required: false
-                hint: "Full LinkedIn profile URL"
 
               - label: "GitHub URL"
                 name: "github"
                 widget: "string"
                 required: false
-                hint: "Full GitHub profile URL"
+
+      # ─────────────────────────────────────────
+      # HERO / HOMEPAGE SETTINGS
+      # ─────────────────────────────────────────
+      - name: "hero"
+        label: "🏠 Homepage Settings"
+        file: "content/settings/hero.json"
+        fields:
+          - label: "Hero Section"
+            name: "hero"
+            widget: "object"
+            fields:
+              - label: "Title"
+                name: "title"
+                widget: "string"
+                default: "Analytics Platform"
+
+              - label: "Subtitle"
+                name: "subtitle"
+                widget: "string"
+                default: "Enterprise Analytics Knowledge System"
+
+              - label: "Positioning Statement"
+                name: "statement"
+                widget: "text"
+                hint: "Professional statement describing your analytics focus"
+
+          - label: "Statistics"
+            name: "stats"
+            widget: "list"
+            max: 4
+            fields:
+              - label: "Value"
+                name: "value"
+                widget: "string"
+                hint: "e.g., 5+, 50+, 20+"
+
+              - label: "Label"
+                name: "label"
+                widget: "string"
+                hint: "e.g., Years Experience, Case Studies"
+
+      # ─────────────────────────────────────────
+      # NAVIGATION
+      # ─────────────────────────────────────────
+      - name: "navigation"
+        label: "🧭 Navigation"
+        file: "content/settings/navigation.json"
+        fields:
+          - label: "Navigation Links"
+            name: "links"
+            widget: "list"
+            fields:
+              - label: "Label"
+                name: "label"
+                widget: "string"
+
+              - label: "URL"
+                name: "href"
+                widget: "string"
+
+              - label: "Order"
+                name: "order"
+                widget: "number"
+                default: 10
+
+      # ─────────────────────────────────────────
+      # BRANDING / THEME
+      # ─────────────────────────────────────────
+      - name: "branding"
+        label: "🎨 Branding & Theme"
+        file: "content/settings/branding.json"
+        fields:
+          - label: "Theme"
+            name: "theme"
+            widget: "select"
+            options:
+              - { label: "Enterprise (Stone)", value: "enterprise" }
+              - { label: "Carbon (Dark)", value: "carbon" }
+            default: "enterprise"
+
+          - label: "Light Mode Colors"
+            name: "colors"
+            widget: "object"
+            fields:
+              - label: "Primary Color"
+                name: "primary"
+                widget: "color"
+                default: "#57534e"
+
+              - label: "Accent Color"
+                name: "accent"
+                widget: "color"
+                default: "#0ea5e9"
+
+              - label: "Background"
+                name: "background"
+                widget: "color"
+                default: "#fafaf9"
+
+          - label: "Dark Mode Colors"
+            name: "darkMode"
+            widget: "object"
+            fields:
+              - label: "Primary Color"
+                name: "primary"
+                widget: "color"
+                default: "#a8a29e"
+
+              - label: "Accent Color"
+                name: "accent"
+                widget: "color"
+                default: "#38bdf8"
+
+              - label: "Background"
+                name: "background"
+                widget: "color"
+                default: "#1c1917"
+
+      # ─────────────────────────────────────────
+      # ABOUT PAGE
+      # ─────────────────────────────────────────
+      - name: "about"
+        label: "📋 About / Enterprise Profile"
+        file: "content/settings/about.md"
+        fields:
+          - label: "Page Title"
+            name: "title"
+            widget: "string"
+            default: "About"
+
+          - label: "Content"
+            name: "body"
+            widget: "markdown"
+            hint: "Professional narrative - analytical philosophy and approach"
+
+      # ─────────────────────────────────────────
+      # PROFESSIONAL PROFILE (RECRUITER VIEW)
+      # ─────────────────────────────────────────
+      - name: "profile"
+        label: "👔 Professional Profile"
+        file: "content/settings/profile.md"
+        fields:
+          - label: "Page Title"
+            name: "title"
+            widget: "string"
+            default: "Professional Profile"
+
+          - label: "Content"
+            name: "body"
+            widget: "markdown"
+            hint: "Executive summary and core competencies for recruiter view"
+
+      # ─────────────────────────────────────────
+      # SKILLS FRAMEWORK
+      # ─────────────────────────────────────────
+      - name: "skills"
+        label: "🛠️ Skills Framework"
+        file: "content/settings/skills.json"
+        fields:
+          - label: "Primary Skills"
+            name: "primary"
+            widget: "list"
+            hint: "Core competencies with deep expertise"
+            fields:
+              - label: "Skill Name"
+                name: "name"
+                widget: "string"
+
+              - label: "Business Context"
+                name: "context"
+                widget: "text"
+                hint: "How and where this skill is applied"
+
+              - label: "Problems Solved"
+                name: "problems"
+                widget: "text"
+                hint: "Types of business problems addressed"
+
+          - label: "Supporting Skills"
+            name: "supporting"
+            widget: "list"
+            hint: "Competencies that complement primary skills"
+            fields:
+              - label: "Skill Name"
+                name: "name"
+                widget: "string"
+
+              - label: "Business Context"
+                name: "context"
+                widget: "text"
+
+              - label: "Problems Solved"
+                name: "problems"
+                widget: "text"
+
+          - label: "Familiar / Working Knowledge"
+            name: "familiar"
+            widget: "list"
+            hint: "Tools and technologies with working familiarity"
+            fields:
+              - label: "Skill Name"
+                name: "name"
+                widget: "string"
+
+              - label: "Context"
+                name: "context"
+                widget: "string"

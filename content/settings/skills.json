@@ -1,0 +1,45 @@
+{
+    "primary": [
+        {
+            "name": "Power BI",
+            "context": "Enterprise dashboard development, DAX calculations, Power Query transformations",
+            "problems": "Executive reporting, KPI tracking, self-service analytics"
+        },
+        {
+            "name": "SQL",
+            "context": "Data extraction, transformation, and analysis across relational databases",
+            "problems": "Complex queries, performance optimization, data modeling"
+        },
+        {
+            "name": "Excel",
+            "context": "Advanced modeling, financial analysis, automation with VBA",
+            "problems": "Financial models, scenario analysis, data validation"
+        }
+    ],
+    "supporting": [
+        {
+            "name": "Tableau",
+            "context": "Interactive visualization and exploratory analysis",
+            "problems": "Ad-hoc analysis, visual exploration, presentation dashboards"
+        },
+        {
+            "name": "Python",
+            "context": "Data manipulation, statistical analysis, automation",
+            "problems": "Large dataset processing, machine learning, web scraping"
+        }
+    ],
+    "familiar": [
+        {
+            "name": "Azure Data Factory",
+            "context": "ETL pipeline orchestration"
+        },
+        {
+            "name": "Snowflake",
+            "context": "Cloud data warehousing"
+        },
+        {
+            "name": "dbt",
+            "context": "Analytics engineering and transformation"
+        }
+    ]
+}
