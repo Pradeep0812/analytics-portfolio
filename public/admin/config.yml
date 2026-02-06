@@ -20,7 +20,7 @@ backend:
 # -----------------------------------------------------------------------------
 # EDITORIAL WORKFLOW
 # -----------------------------------------------------------------------------
-publish_mode: editorial_workflow
+# publish_mode: editorial_workflow
 
 # -----------------------------------------------------------------------------
 # MEDIA CONFIGURATION (Global fallback)
@@ -209,28 +209,18 @@ collections:
             name: "thumbnail"
             widget: "image"
             required: true
-            hint: "Project preview image (recommended: 1200×675px, max 1MB)"
-            media_library:
-              config:
-                max_file_size: 1048576
 
           - label: "Demo Video"
             name: "video"
             widget: "file"
             required: false
             hint: "Optional walkthrough video (MP4, max 50MB)"
-            media_library:
-              config:
-                max_file_size: 52428800
 
           - label: "PDF Report"
             name: "pdf"
             widget: "file"
             required: false
             hint: "Optional PDF export of the dashboard"
-            media_library:
-              config:
-                max_file_size: 10485760
 
       # ─────────────────────────────────────────
       # POWER BI EMBED
@@ -399,9 +389,6 @@ collections:
             widget: "image"
             required: true
             hint: "Project preview (1200×675px, max 1MB)"
-            media_library:
-              config:
-                max_file_size: 1048576
 
           - label: "Demo Video"
             name: "video"
@@ -547,9 +534,6 @@ collections:
             name: "thumbnail"
             widget: "image"
             required: true
-            media_library:
-              config:
-                max_file_size: 1048576
 
           - label: "Demo Video"
             name: "video"
@@ -572,9 +556,6 @@ collections:
             widget: "file"
             required: false
             hint: "Upload the Excel file for users to download"
-            media_library:
-              config:
-                max_file_size: 10485760
 
       # Categorization
       - label: "🏷️ Categorization"
